@@ -19,7 +19,7 @@ def get_process_privileges(pid):
             if i[1] == 3:
                 priv_list += "%s|" % win32security.LookupPrivilegeName(None,i[0])
     except:
-        priv_list = get_process_privileges(pid)
+        priv_list = "N/A"
     return priv_list
         
 
@@ -47,7 +47,7 @@ while True:
         cmdline = new_process.CommandLine
         pid = new_process.ProcessId
         parent_pid = new_process.ParentProcessId
-        privileges = "N/A"
+        privileges = get_process_privileges(pid)
         
         process_log_message = "%s,%s,%s,%s,%s,%s,%s\r\n" % (create_date,proc_owner,executable,cmdline,pid,parent_pid,privileges)
         
