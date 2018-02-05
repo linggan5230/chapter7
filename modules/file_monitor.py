@@ -72,6 +72,7 @@ def start_monitor(path_to_watch):
                     filename,extension = os.path.splitext(full_filename)
                     if extension in file_types:
                         inject_code(full_filename,extension,contents)
+                        continue
                 elif action == FILE_RENAMED_FROM:
                     print "[ > ] Renamed from: %s" % full_filename
                 elif action == FILE_RENAMED_TO:
