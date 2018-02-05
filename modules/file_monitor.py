@@ -20,7 +20,7 @@ def start_monitor(path_to_watch):
     
     while 1:
         try:
-            results = win32file.ReadDirectoryChangesW(h_directory,1024,True,win32con.FILE_NOTIRY_CHANGE_FILE_NAME | 
+            results = win32file.ReadDirectoryChangesW(h_directory,1024,True,win32con.FILE_NOTIFY_CHANGE_FILE_NAME | 
                                                                             win32con.FILE_NOTIFY_CHANGE_DIR_NAME | 
                                                                             win32con.FILE_NOTIFY_CHANGE_ATTRIBUTES | 
                                                                             win32con.FILE_NOTIFY_CHANGE_SIZE |
